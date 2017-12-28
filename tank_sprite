@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class player : MonoBehaviour {
+
+    public float movespeed = 3;/*定义速度*/
+
+    private SpriteRenderer sr;/*通过调用精灵渲染器，实现图片切换。*/
+
+    public Sprite[] tanksprite;/*定义精灵的集合。顺序为↑→↓←*/
+
+    private void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();/*精灵渲染组件*/
+    }
+
+    // Use this for initialization
+    void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+
+        float h = Input.GetAxisRaw("Horizontal");/*定义变量，监听玩家水平轴值输入值*/
+        transform.Translate(Vector3.right * h*movespeed*Time.deltaTime,Space.World);/*沿着x轴移动，文本内容为定义x轴正方向×键盘右键或者D×移动速度movespeed×时间轴（如果没有就逐帧移动），最终按照世界方向移动。沿着z为vector3.forward。*/
+        if (h<0)
+        {
+            sr.sprite = tanksprite[3];/*如果玩家按键方向与正x轴相反，则进入编号3精灵。*/
+        }
+        else if (h>0)
+        {
+            sr.sprite = tanksprite[1];/*如果玩家按键方向与正x轴相同，则进入编号1精灵。*/
+        }
+        float v = Input.GetAxisRaw("Vertical");/*定义变量，监听玩家垂直轴值输入值*/
+        transform.Translate(Vector3.up * v * movespeed * Time.deltaTime, Space.World);/*沿着y轴移动，文本内容为定义x轴正方向×键盘上键或者W×移动速度movespeed×时间轴（如果没有就逐帧移动），最终按照世界方向移动。沿着z为vector3.forward。*/
+        if (v < 0)
+        {
+            sr.sprite = tanksprite[2];/*如果玩家按键方向与正y轴相反，则进入编号2精灵。*/
+        }
+        else if (v > 0)
+        {
+            sr.sprite = tanksprite[0];/*如果玩家按键方向与正y轴相同，则进入编号0精灵。*/
+        }
+    }
+}
